@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/react.js"></script>
+    <script src="lib/react-dom.js"></script>
+    <script src="lib/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class Home extends React.Component{
+            constructor(props){
+                super(props)
+            }
+            render(){
+                return <div>这是home</div>
+            }
+        }
+          class List extends React.Component{
+            constructor(props){
+                super(props)
+            }
+            render(){
+                return <div>这是list</div>
+            }
+        }
+        class App extends React.Component{
+            constructor(props){
+                super(props)
+                this.state={
+                    route:window.location.hash.substr(1)
+                }
+            }
+            componentDidMount(){
+                window.addEventListener('hashchange',()=>{
+                    this.setState({
+                        route:window.location.hash.substr(1)
+                    })
+                },false)
+            }
+            render(){
+                let Child;
+                switch(this.state.route){
+                    case '/home':
+                        Child=Home
+                        break;
+                    case '/list':
+                        Child=List
+                        break;
+                    default :
+                        Child=Home
+                }
+                return (
+                    <div>
+                        <ul>
+                            <li><a href="#/home">首页</a></li>
+                            <li><a href="#/list">列表</a></li>
+                        </ul>
+                        <Child/>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App/>,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>
+
